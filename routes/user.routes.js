@@ -1,26 +1,11 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-const userRouter = Router();
+import { signUp, signIn, signOut } from '../controllers/auth.controller.js';
 
+const authRouter = Router();
 
-userRouter.get("/", (req,res)=>{
-    res.send({title: "User", message: "User fetched successfully"} );
-});
+authRouter.post('/sign-up', signUp);
+authRouter.post('/sign-in', signIn);
+authRouter.post('/sign-out', signOut);
 
-userRouter.get("/:id", (req,res)=>{
-    res.send({title: "User", message: "User fetched successfully"});
-});
-
-userRouter.post("/", (req,res)=>{
-    res.send({title: "User", message: "User created successfully"});
-});
-
-userRouter.put("/:id", (req,res)=>{
-    res.send({title: "User", message: "User updated successfully"});
-});
-
-userRouter.delete("/:id", (req,res)=>{
-    res.send({title: "User", message: "User deleted successfully"});
-});
-
-export default userRouter;
+export default authRouter;

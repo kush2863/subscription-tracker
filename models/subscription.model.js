@@ -70,8 +70,19 @@ user :{
 }, {timestamps:true});
 
 subscriptionSchema.pre("save",async function(next){
-    if(this.isModified("status") && this.status === "inactive"){
-        this.renewalDate = null;
+    if(!this.renewalDate){
+        const renewalPeriods ={
+            daily:1,
+            weekly:7,
+            monthly:30,
+            yearly:365,
+        };
+        const renewalInterval = renewalPeriods[this.frequency];
+        this.renewalDate = new Date(this.startDate);
+        this.renewalDate.setDate(this.renewalDate.getDate() + renewalInterval);
+    }
+    if(this.renewalDate < new Date()){
+        this.status = "expired";
     }
     next();
 });

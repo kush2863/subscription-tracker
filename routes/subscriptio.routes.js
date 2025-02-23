@@ -1,35 +1,26 @@
-import { Router } from "express";
+import { Router } from 'express';
+import authorize from '../middleware/auth.middleware.js'
+import {
+  createSubscription,
+  getUserSubscriptions,
+} from '../controllers/subscription.controller.js'
 
 const subscriptionRouter = Router();
 
-subscriptionRouter.post("/", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription created successfully"});
-});
+subscriptionRouter.get('/', (req, res) => res.send({ title: 'GET all subscriptions' }));
 
-subscriptionRouter.get("/", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription fetched successfully"});    
-});
+subscriptionRouter.get('/:id', (req, res) => res.send({ title: 'GET subscription details' }));
 
-subscriptionRouter.get("/:id", (req,res)=>{
-        res.send({title: "Subscription", message: "Subscription fetched successfully"});
-});
+subscriptionRouter.post('/', authorize, createSubscription);
 
-subscriptionRouter.put("/:id", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription updated successfully"});
-});
+subscriptionRouter.put('/:id', (req, res) => res.send({ title: 'UPDATE subscription' }));
 
-subscriptionRouter.delete("/:id", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription deleted successfully"});
-});
-subscriptionRouter.get("/user/:id", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription fetched successfully"});
-});
-subscriptionRouter.put("/:id/cancel", (req,res)=>{
-    res.send({title: "Subscription", message: "Subscription cancelled successfully"});
-});
-subscriptionRouter.get("/upcoming-renewals", (req,res)=>{
-    res.send({title: "Subscription", message: "Upcoming renewals fetched successfully"});
-});
+subscriptionRouter.delete('/:id', (req, res) => res.send({ title: 'DELETE subscription' }));
 
+subscriptionRouter.get('/user/:id', authorize, getUserSubscriptions);
 
-export default subscriptionRouter;  
+subscriptionRouter.put('/:id/cancel', (req, res) => res.send({ title: 'CANCEL subscription' }));
+
+subscriptionRouter.get('/upcoming-renewals', (req, res) => res.send({ title: 'GET upcoming renewals' }));
+
+export default subscriptionRouter;

@@ -1,11 +1,17 @@
 import { Router } from 'express';
 
-import { signUp, signIn, signOut } from '../controllers/auth.controller.js';
+import authorize from '../middleware/auth.middleware.js'
+import { getUser, getUsers, updateUser, deleteUser   } from '../controllers/user.controller.js'
 
-const authRouter = Router();
+const userRouter = Router();
 
-authRouter.post('/sign-up', signUp);
-authRouter.post('/sign-in', signIn);
-authRouter.post('/sign-out', signOut);
+userRouter.get('/', getUsers);
 
-export default authRouter;
+userRouter.get('/:id', authorize, getUser);
+
+
+userRouter.put('/:id', authorize, updateUser);
+
+userRouter.delete('/:id', authorize, deleteUser);
+
+export default userRouter;

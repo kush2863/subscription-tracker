@@ -6,11 +6,12 @@ import userRouter from "./routes/user.routes.js";
 import subscriptionRouter from "./routes/subscriptio.routes.js";
 import connectToDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middleware/error.middleware.js";
+import arcjetMiddleware from "./middleware/archject.middleware.js";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-
+  app.use(arcjetMiddleware);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
